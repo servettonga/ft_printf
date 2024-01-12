@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -f
 
-SRCS = ft_printf.c ft_printf_c.c ft_printf_i.c ft_printf_s.c
+SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

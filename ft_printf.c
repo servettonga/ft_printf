@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:04:48 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/11 23:29:18 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/12 20:58:04 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,15 @@ static void	ft_printf_args(const char *format, va_list args,
 		unsigned int *count)
 {
 	if (*format == 'c')
-		*count += ft_printf_c(va_arg(args, int), 1);
+		ft_printf_c(va_arg(args, int), 1, count);
 	else if (*format == 's')
-		*count += ft_printf_s(va_arg(args, const char *), 1);
+		ft_printf_s(va_arg(args, const char *), 1, count);
+	else if (*format == 'p')
+		ft_printf_p(va_arg(args, void *), 1, count);
 	else if (*format == 'd' || *format == 'i')
-		*count += ft_printf_i(va_arg(args, int), 1);
+		ft_printf_i(va_arg(args, int), 1, count);
+	else if (*format == 'u')
+		ft_printf_u(va_arg(args, int), 1, count);
 }
 
 static int	ft_vprintf(const char *format, va_list args)
@@ -107,7 +111,7 @@ static int	ft_vprintf(const char *format, va_list args)
 		if (*format == '%')
 			ft_printf_args(++format, args, &printed);
 		else
-			printed += ft_printf_c(*format, 1);
+			ft_printf_c(*format, 1, &printed);
 		format++;
 	}
 	return (printed);
@@ -125,15 +129,3 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (count);
 }
-
-// #include "stdio.h"
-//
-// int	main(void)
-// {
-// 	int	count;
-//
-// 	// count = ft_printf("Expected: %c, %s, %d", 'a', "string", 123);
-// 	count = ft_printf("Expected: %s, %s, %s", NULL, NULL, "string");
-// 	printf("\ncount: %d\n", count);
-// 	return (0);
-// }

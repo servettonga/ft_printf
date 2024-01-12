@@ -6,14 +6,14 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:56:02 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/11 22:56:03 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/12 20:49:28 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf_c(unsigned char c, int fd)
+void	ft_printf_c(unsigned char c, int fd, unsigned int *count)
 {
 	write(fd, &c, 1);
-	return (1);
+	*count += 1;
 }

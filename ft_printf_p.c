@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_i.c                                      :+:      :+:    :+:   */
+/*   ft_printf_p.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 18:35:43 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/12 20:54:03 by sehosaf          ###   ########.fr       */
+/*   Created: 2024/01/12 16:50:20 by sehosaf           #+#    #+#             */
+/*   Updated: 2024/01/12 21:12:16 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_printf_i(int n, int fd, unsigned int *count)
+void	ft_printf_p(void *ptr, int fd, unsigned int *count)
 {
-	long	num;
+	uintptr_t	addr;
+	char		buffer[20];
+	size_t		i;
 
-	num = n;
-	if (num < 0)
+	addr = (uintptr_t)ptr;
+	if (!addr)
 	{
-		ft_printf_c('-', fd, count);
-		num *= -1;
+		ft_printf_s("(nil)", 1, count);
+		return ;
 	}
-	if (num >= 10)
+	i = sizeof(buffer);
+	buffer[--i] = '\0';
+	while (addr > 0)
 	{
-		ft_printf_i(num / 10, fd, count);
-		ft_printf_i(num % 10, fd, count);
+		buffer[--i] = "0123456789abcdef"[addr % 16];
+		addr /= 16;
 	}
-	else
-		ft_printf_c(num + '0', fd, count);
+	buffer[--i] = 'x';
+	buffer[--i] = '0';
+	ft_printf_s(buffer + i, fd, count);
 }
