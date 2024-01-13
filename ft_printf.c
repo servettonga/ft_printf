@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:04:48 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/13 19:47:32 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/13 20:07:57 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,6 @@
 		x			Unsigned hexadecimal integer
 		X			Unsigned hexadecimal integer (uppercase)
 		f			Decimal floating point, lowercase
-		e			Scientific notation (mantissa/exponent), lowercase
-		g			Use the shortest representation: %e or %f
-		n			Nothing printed.
-					The corresponding argument must be a pointer to a signed int
 		%			A % followed by another % character will write a single
 					% to the stream.
 
@@ -54,6 +50,8 @@
 		+			Forces to preced the result with a plus or minus sign (+ or
 					-) even for positive numbers. By default, only negative
 					numbers are preceded with a - sign.
+		(space)		If no sign is going to be written, a blank space is inserted
+					before the value.
 		#			Used with o, x or X specifiers the value is preceeded
 					with 0,
 					0x or 0X respectively for values different than zero.
@@ -64,20 +62,6 @@
 		.*			The precision is not specified in the format string, but as
 					an additional integer value argument preceding the argument
 					that has to be formatted.
-
-		width		description
-		(number)	Minimum number of characters to be printed. If the value to
-					be printed is shorter than this number, the result is padded
-					with blank spaces. The value is not truncated even if the
-					result is larger.
-
-		The length sub-specifier modifies the length of the data type.
-					specifiers
-		length		d i				u o x
-		hh			signed char		unsigned char
-		h			short int		unsigned short int
-		l			long int		unsigned long int
-		ll			long long int	unsigned long long int
 
 	RETURN VALUE
 		Upon successful return, this function returns the number of characters
@@ -102,6 +86,8 @@ static void	ft_printf_specifier(const char *format, va_list args, size_t *count)
 		ft_printf_x(va_arg(args, unsigned int), *format == 'X', 1, count);
 	else if (*format == 'f')
 		ft_printf_f(va_arg(args, double), 1, count);
+	else if (*format == '%')
+		ft_printf_c('%', 1, count);
 }
 
 static int	ft_vprintf(const char *format, va_list args)
