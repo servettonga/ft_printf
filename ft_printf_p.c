@@ -6,13 +6,13 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 16:50:20 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/12 21:12:16 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/13 13:48:32 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_printf_p(void *ptr, int fd, unsigned int *count)
+void	ft_printf_p(void *ptr, int fd, size_t *count)
 {
 	uintptr_t	addr;
 	char		buffer[20];

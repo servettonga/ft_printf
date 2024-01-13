@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:04:48 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/12 20:58:04 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/13 13:49:27 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@
 		these specifications:
 
 		flags		description
-		-			Left-justify within the given field width; Right justification
-					is the default (see width sub-specifier).
-		+			Forces to preceed the result with a plus or minus sign (+ or
+		-			Left-justify within the given field width; Right
+					justification is the default (see width sub-specifier).
+		+			Forces to preced the result with a plus or minus sign (+ or
 					-) even for positive numbers. By default, only negative
 					numbers are preceded with a - sign.
 		#			Used with o, x or X specifiers the value is preceeded
@@ -66,8 +66,8 @@
 					that has to be formatted.
 
 		width		description
-		(number)	Minimum number of characters to be printed. If the value to be
-					printed is shorter than this number, the result is padded
+		(number)	Minimum number of characters to be printed. If the value to
+					be printed is shorter than this number, the result is padded
 					with blank spaces. The value is not truncated even if the
 					result is larger.
 
@@ -86,8 +86,7 @@
 
 #include "ft_printf.h"
 
-static void	ft_printf_args(const char *format, va_list args,
-		unsigned int *count)
+static void	ft_printf_specifier(const char *format, va_list args, size_t *count)
 {
 	if (*format == 'c')
 		ft_printf_c(va_arg(args, int), 1, count);
@@ -99,17 +98,19 @@ static void	ft_printf_args(const char *format, va_list args,
 		ft_printf_i(va_arg(args, int), 1, count);
 	else if (*format == 'u')
 		ft_printf_u(va_arg(args, int), 1, count);
+	else if (*format == 'x' || *format == 'X')
+		ft_printf_x(va_arg(args, unsigned int), *format == 'X', 1, count);
 }
 
 static int	ft_vprintf(const char *format, va_list args)
 {
-	unsigned int	printed;
+	size_t	printed;
 
 	printed = 0;
 	while (*format)
 	{
 		if (*format == '%')
-			ft_printf_args(++format, args, &printed);
+			ft_printf_specifier(++format, args, &printed);
 		else
 			ft_printf_c(*format, 1, &printed);
 		format++;
@@ -119,8 +120,8 @@ static int	ft_vprintf(const char *format, va_list args)
 
 int	ft_printf(const char *format, ...)
 {
-	va_list			args;
-	unsigned int	count;
+	va_list	args;
+	size_t	count;
 
 	if (!format || *format == '\0')
 		return (0);
