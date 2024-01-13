@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:35:43 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/13 13:48:19 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/13 19:46:48 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,31 @@ void	ft_printf_x(unsigned int n, bool upper, int fd, size_t *count)
 	buffer[i] = hex[n];
 	buffer[8] = '\0';
 	ft_printf_s(buffer + i, fd, count);
+}
+
+void	ft_printf_f(double n, int fd, size_t *count)
+{
+	int		int_part;
+	float	frac_part;
+	char	buffer[8];
+	int		i;
+
+	if (n < 0)
+	{
+		ft_printf_c('-', fd, count);
+		n *= -1;
+	}
+	int_part = (unsigned int)n;
+	frac_part = n - int_part;
+	ft_printf_u(int_part, fd, count);
+	i = 0;
+	buffer[i] = '.';
+	while (++i < 7)
+	{
+		frac_part *= 10;
+		buffer[i] = (int)frac_part + '0';
+		frac_part -= (int)frac_part;
+	}
+	buffer[7] = '\0';
+	ft_printf_s(buffer, fd, count);
 }

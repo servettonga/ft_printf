@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:04:48 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/13 13:49:27 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/13 19:47:32 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ static void	ft_printf_specifier(const char *format, va_list args, size_t *count)
 		ft_printf_u(va_arg(args, int), 1, count);
 	else if (*format == 'x' || *format == 'X')
 		ft_printf_x(va_arg(args, unsigned int), *format == 'X', 1, count);
+	else if (*format == 'f')
+		ft_printf_f(va_arg(args, double), 1, count);
 }
 
 static int	ft_vprintf(const char *format, va_list args)

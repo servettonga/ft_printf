@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:05:04 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/13 13:47:58 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/13 19:46:57 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	ft_printf_i(int n, int fd, size_t *count);
 void	ft_printf_p(void *ptr, int fd, size_t *count);
 void	ft_printf_u(unsigned int n, int fd, size_t *count);
 void	ft_printf_x(unsigned int n, bool upper, int fd, size_t *count);
+void	ft_printf_f(double n, int fd, size_t *count);
 
 #endif
