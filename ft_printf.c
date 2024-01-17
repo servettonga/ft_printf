@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:04:48 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/13 20:07:57 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/17 14:29:48 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 		u			Unsigned decimal integer
 		x			Unsigned hexadecimal integer
 		X			Unsigned hexadecimal integer (uppercase)
-		f			Decimal floating point, lowercase
 		%			A % followed by another % character will write a single
 					% to the stream.
 
@@ -45,11 +44,9 @@
 		these specifications:
 
 		flags		description
-		-			Left-justify within the given field width; Right
-					justification is the default (see width sub-specifier).
-		+			Forces to preced the result with a plus or minus sign (+ or
-					-) even for positive numbers. By default, only negative
-					numbers are preceded with a - sign.
+		-			Left-justify the result within the field width.
+		+			Prefix the output value with a sign (+ or -) if the output
+					value is of a signed type.
 		(space)		If no sign is going to be written, a blank space is inserted
 					before the value.
 		#			Used with o, x or X specifiers the value is preceeded
@@ -58,8 +55,11 @@
 		0			Left-pads the number with zeroes (0) instead of spaces when
 					padding is specified (see width sub-specifier).
 
-		.precision	description
-		.*			The precision is not specified in the format string, but as
+		width		description
+		(number)	Minimum number of characters to be printed. If the value
+					to be printed is shorter than this number, the result is
+					padded with blank spaces.
+		*			The width is not specified in the format string, but as
 					an additional integer value argument preceding the argument
 					that has to be formatted.
 
@@ -70,42 +70,6 @@
 
 #include "ft_printf.h"
 
-static void	ft_printf_specifier(const char *format, va_list args, size_t *count)
-{
-	if (*format == 'c')
-		ft_printf_c(va_arg(args, int), 1, count);
-	else if (*format == 's')
-		ft_printf_s(va_arg(args, const char *), 1, count);
-	else if (*format == 'p')
-		ft_printf_p(va_arg(args, void *), 1, count);
-	else if (*format == 'd' || *format == 'i')
-		ft_printf_i(va_arg(args, int), 1, count);
-	else if (*format == 'u')
-		ft_printf_u(va_arg(args, int), 1, count);
-	else if (*format == 'x' || *format == 'X')
-		ft_printf_x(va_arg(args, unsigned int), *format == 'X', 1, count);
-	else if (*format == 'f')
-		ft_printf_f(va_arg(args, double), 1, count);
-	else if (*format == '%')
-		ft_printf_c('%', 1, count);
-}
-
-static int	ft_vprintf(const char *format, va_list args)
-{
-	size_t	printed;
-
-	printed = 0;
-	while (*format)
-	{
-		if (*format == '%')
-			ft_printf_specifier(++format, args, &printed);
-		else
-			ft_printf_c(*format, 1, &printed);
-		format++;
-	}
-	return (printed);
-}
-
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
@@ -114,7 +78,7 @@ int	ft_printf(const char *format, ...)
 	if (!format || *format == '\0')
 		return (0);
 	va_start(args, format);
-	count = ft_vprintf(format, args);
+	count = ft_printf_arg(format, args);
 	va_end(args);
 	return (count);
 }

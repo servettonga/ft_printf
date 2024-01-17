@@ -1,37 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_p.c                                      :+:      :+:    :+:   */
+/*   ft_printf_ptr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 16:50:20 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/13 13:48:32 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/17 13:52:29 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_printf_p(void *ptr, int fd, size_t *count)
+static size_t	ft_printf_ptr_len(uintptr_t num)
+{
+	size_t	digits;
+
+	digits = 0;
+	while (num)
+	{
+		num /= 16;
+		digits++;
+	}
+	return (digits);
+}
+
+void	ft_printf_p(void *ptr, size_t *count, t_flags *flags)
 {
 	uintptr_t	addr;
-	char		buffer[20];
-	size_t		i;
+	char		*buffer;
+	size_t		len;
 
 	addr = (uintptr_t)ptr;
 	if (!addr)
 	{
-		ft_printf_s("(nil)", 1, count);
+		ft_printf_s("(nil)", count, flags);
 		return ;
 	}
-	i = sizeof(buffer);
-	buffer[--i] = '\0';
+	len = ft_printf_ptr_len(addr);
+	buffer = ft_calloc(len + 3, sizeof(char));
+	buffer[len + 2] = '\0';
 	while (addr > 0)
 	{
-		buffer[--i] = "0123456789abcdef"[addr % 16];
+		buffer[--len + 2] = "0123456789abcdef"[addr % 16];
 		addr /= 16;
 	}
-	buffer[--i] = 'x';
-	buffer[--i] = '0';
-	ft_printf_s(buffer + i, fd, count);
+	buffer[1] = 'x';
+	buffer[0] = '0';
+	flags->sign = '\0';
+	ft_printf_s(buffer, count, flags);
+	free(buffer);
 }

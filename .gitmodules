@@ -1,3 +1,4 @@
 [submodule "printfTester"]
-	path = printfTester
-	url = git@github.com:Tripouille/printfTester.git
+path = printfTester
+url = git@github.com:Tripouille/printfTester.git
+ignore = dirty

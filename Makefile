@@ -23,4 +23,7 @@ fclean: clean
 
 re: fclean all
 
+run:
+	gcc -Wall -Werror -Wextra ft_printf*.c -L. -lft -v
+
 bonus: all
