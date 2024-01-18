@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:05:04 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/17 13:55:20 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/19 14:50:47 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,31 @@ typedef struct s_flags
 	bool	minus;
 	bool	plus;
 	bool	space;
+	int		total_space;
 	int		space_l;
 	int		space_r;
+	char	spacer;
 	bool	sharp;
 	bool	zero;
-	bool	precision;
-	size_t	width;
+	bool	dot;
+	int		precision;
+	int		width;
 	char	sign;
 	int		fd;
+	bool	is_string;
 }			t_flags;
 
 int			ft_printf(const char *format, ...);
 int			ft_printf_arg(const char *format, va_list args);
 void		ft_printf_c(unsigned char c, size_t *count, t_flags *flags);
 void		ft_printf_s(const char *str, size_t *count, t_flags *flags);
+void		_pre_buffer(const char *str, size_t *count, t_flags *flags);
 void		ft_printf_i(int n, size_t *count, t_flags *flags);
 void		ft_printf_p(void *ptr, size_t *count, t_flags *flags);
 void		ft_printf_u(unsigned int n, size_t *count, t_flags *flags);
 void		ft_printf_x(unsigned int n, bool upper, size_t *count,
 				t_flags *flags);
+void		_print_null(const char *str, t_flags *flags, size_t *count);
 
 // Flags
 void		ft_init_flags(t_flags *flags);

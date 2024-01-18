@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:48:16 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/17 14:17:27 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/19 14:49:06 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,16 @@ void	ft_printf_c(unsigned char c, size_t *count, t_flags *flags)
 		write(flags->fd, " ", 1);
 }
 
-static void	_print_null(t_flags *flags, size_t *count)
+void	_print_null(const char *str, t_flags *flags, size_t *count)
 {
-	write(flags->fd, "(null)", 6);
-	*count += 6 + flags->width;
+	size_t	len;
+
+	len = ft_strlen(str);
+	write(flags->fd, str, len);
+	*count += len;
 }
 
-static void	_ft_print_buffer(const char *str, char spacer, t_flags *flags,
+static void	_ft_print_buffer(const char *str, int len, t_flags *flags,
 		size_t *count)
 {
 	char	*buffer;
@@ -41,46 +44,59 @@ static void	_ft_print_buffer(const char *str, char spacer, t_flags *flags,
 	int		i;
 
 	i = 0;
-	total_size = flags->space_l + flags->space_r + ft_strlen(str) + flags->plus;
+	total_size = flags->total_space + len + flags->plus;
 	buffer = ft_calloc(sizeof(char), total_size + 3);
 	if (buffer == NULL)
-		return (_print_null(flags, count));
+		return (_print_null("(null)", flags, count));
 	if (flags->plus || flags->sign == '-')
-	{
 		buffer[i++] = flags->sign;
-		total_size++;
-	}
-	while (flags->space_l-- > 0)
-		buffer[i++] = spacer;
-	while (*str)
+	if (!flags->minus)
+		while (flags->total_space-- > 0)
+			buffer[i++] = flags->spacer;
+	while (*str && len-- > 0)
 		buffer[i++] = *str++;
-	while (flags->space_r-- > 0)
-		buffer[i++] = spacer;
+	while (flags->total_space-- > 0)
+		buffer[i++] = flags->spacer;
 	write(flags->fd, buffer, i);
 	*count += i;
 	free(buffer);
 }
 
-void	ft_printf_s(const char *str, size_t *count, t_flags *flags)
+void	_pre_buffer(const char *str, size_t *count, t_flags *flags)
 {
-	int		total_space;
-	char	spacer;
-	size_t	len;
+	int	len;
 
 	if (str == NULL)
-		return (_print_null(flags, count));
-	total_space = 0;
+		return (_print_null("(null)", flags, count));
 	len = ft_strlen(str);
-	if (len == 0 && flags->width == 0)
+	if (len == 0 && (flags->width == 0 && flags->precision == 0))
 		return ;
 	if (flags->width > len)
-		total_space = flags->width - len;
-	total_space += flags->space * (len > 0) - (flags->plus
+		flags->total_space = flags->width - len;
+	else if (flags->precision > len)
+		flags->total_space = flags->precision - len + (flags->plus
+				|| flags->sign == '-');
+	flags->total_space += flags->space * (len >= 0) - (flags->plus
 			|| flags->sign == '-');
-	flags->space_l = total_space * !flags->minus;
-	flags->space_r = total_space * flags->minus;
-	spacer = ' ';
-	if (flags->zero)
-		spacer = '0';
-	_ft_print_buffer(str, spacer, flags, count);
+	if (flags->zero || flags->precision > 0)
+		flags->spacer = '0';
+	_ft_print_buffer(str, len, flags, count);
+}
+
+void	ft_printf_s(const char *str, size_t *count, t_flags *flags)
+{
+	int	len;
+
+	if (str == NULL)
+		return (_print_null("(null)", flags, count));
+	len = ft_strlen(str);
+	if (flags->dot && flags->precision == 0)
+		return ;
+	if (len == 0 && (flags->width == 0))
+		return ;
+	if (flags->width > len)
+		flags->total_space = flags->width - len;
+	if (flags->dot && flags->precision < len)
+		len = flags->precision;
+	_ft_print_buffer(str, len, flags, count);
 }

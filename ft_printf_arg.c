@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 20:19:36 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/17 13:52:58 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/18 21:02:58 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	ft_printf_specifier(const char *format, va_list args, size_t *count,
 	else if (*format == 's')
 	{
 		flags->space = false;
+		flags->is_string = true;
 		ft_printf_s(va_arg(args, const char *), count, flags);
 	}
 	else if (*format == 'p')

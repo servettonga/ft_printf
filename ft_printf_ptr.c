@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 16:50:20 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/17 13:52:29 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/19 13:05:46 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ void	ft_printf_p(void *ptr, size_t *count, t_flags *flags)
 
 	addr = (uintptr_t)ptr;
 	if (!addr)
-	{
-		ft_printf_s("(nil)", count, flags);
-		return ;
-	}
+		return (_print_null("(nil)", flags, count));
 	len = ft_printf_ptr_len(addr);
 	buffer = ft_calloc(len + 3, sizeof(char));
 	buffer[len + 2] = '\0';
@@ -48,6 +45,6 @@ void	ft_printf_p(void *ptr, size_t *count, t_flags *flags)
 	buffer[1] = 'x';
 	buffer[0] = '0';
 	flags->sign = '\0';
-	ft_printf_s(buffer, count, flags);
+	_pre_buffer(buffer, count, flags);
 	free(buffer);
 }

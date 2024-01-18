@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:35:43 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/17 13:51:51 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/18 23:31:09 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_printf_i(int n, size_t *count, t_flags *flags)
 		num /= 10;
 	}
 	buffer[11] = '\0';
-	ft_printf_s(buffer + i, count, flags);
+	_pre_buffer(buffer + i, count, flags);
 	free(buffer);
 }
 
@@ -53,16 +53,18 @@ void	ft_printf_u(unsigned int n, size_t *count, t_flags *flags)
 		n /= 10;
 	}
 	buffer[19] = '\0';
-	ft_printf_s(buffer + i, count, flags);
+	_pre_buffer(buffer + i, count, flags);
 	free(buffer);
 }
 
 void	ft_printf_x(unsigned int n, bool upper, size_t *count, t_flags *flags)
 {
-	const char	*hex;
-	char		buffer[16];
-	int			i;
+	const char		*hex;
+	char			buffer[16];
+	int				i;
+	unsigned int	init_n;
 
+	init_n = n;
 	hex = "0123456789abcdef";
 	if (upper)
 		hex = "0123456789ABCDEF";
@@ -73,7 +75,15 @@ void	ft_printf_x(unsigned int n, bool upper, size_t *count, t_flags *flags)
 		n /= 16;
 	}
 	buffer[i--] = hex[n];
+	if (flags->sharp && init_n != 0)
+	{
+		if (upper)
+			buffer[i--] = 'X';
+		else
+			buffer[i--] = 'x';
+		buffer[i--] = '0';
+	}
 	buffer[i] = '\0';
 	buffer[15] = '\0';
-	ft_printf_s(buffer + i + 1, count, flags);
+	_pre_buffer(buffer + i + 1, count, flags);
 }

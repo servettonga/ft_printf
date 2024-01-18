@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 21:58:37 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/17 14:29:53 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/18 23:43:58 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@ void	ft_init_flags(t_flags *flags)
 	flags->minus = false;
 	flags->plus = false;
 	flags->space = false;
+	flags->total_space = 0;
 	flags->space_l = 0;
 	flags->space_r = 0;
+	flags->spacer = ' ';
 	flags->zero = false;
 	flags->sharp = false;
+	flags->dot = false;
 	flags->precision = 0;
 	flags->width = 0;
 	flags->sign = '+';
 	flags->fd = 1;
+	flags->is_string = false;
 }
 
 bool	ft_is_flag(char format)
@@ -64,7 +68,16 @@ void	ft_set_flags(t_flags *flags, const char **format)
 			flags->sharp = true;
 		else if (**format == '0' && !ft_isdigit(*(*format - 1)))
 			flags->zero = true;
-		if (ft_isdigit(**format))
+		else if (**format == '.')
+		{
+			flags->dot = true;
+			while (ft_isdigit(*(*format + 1)))
+			{
+				(*format)++;
+				flags->precision = (flags->precision * 10) + **format - '0';
+			}
+		}
+		else if (ft_isdigit(**format))
 		{
 			if (**format == '0' && flags->width == 0)
 				flags->zero = true;
