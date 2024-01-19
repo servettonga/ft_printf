@@ -1,0 +1,23 @@
+name: ft_printf_test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: make
+        run: |
+          sudo apt-get update && sudo apt-get install make git clang valgrind -y
+          make -C libft && mv libft/libft.a libft.a
+          sed -i 's/-lftprintf/-lftprintf -lft/g' printfTester/Makefile
+          sed -i 's/tput setaf [0-9]* &&//g' printfTester/Makefile
+          sed -i 's/tput setaf [0-9]*//g' printfTester/Makefile
+          make a -C printfTester
