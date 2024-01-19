@@ -1,6 +1,7 @@
 NAME = libftprintf.a
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -L./libft -lft -Iinclude
+CFLAGS = -Wall -Wextra -Werror -Iinclude
+LDFLAGS = -L./libft -lft
 AR = ar rcs
 RM = rm -f
 
@@ -16,7 +17,7 @@ $(NAME): $(OBJS)
 	@ranlib $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)

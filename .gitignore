@@ -62,4 +62,4 @@ Thumbs.db
 .idea
 .vscode
 
-libft.*
+libft.a
