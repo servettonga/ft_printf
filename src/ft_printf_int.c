@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:35:43 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/18 23:31:09 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/19 17:14:54 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,10 @@ void	ft_printf_u(unsigned int n, size_t *count, t_flags *flags)
 
 void	ft_printf_x(unsigned int n, bool upper, size_t *count, t_flags *flags)
 {
-	const char		*hex;
-	char			buffer[16];
-	int				i;
-	unsigned int	init_n;
+	const char	*hex;
+	char		buffer[16];
+	int			i;
 
-	init_n = n;
 	hex = "0123456789abcdef";
 	if (upper)
 		hex = "0123456789ABCDEF";
@@ -75,7 +73,7 @@ void	ft_printf_x(unsigned int n, bool upper, size_t *count, t_flags *flags)
 		n /= 16;
 	}
 	buffer[i--] = hex[n];
-	if (flags->sharp && init_n != 0)
+	if (flags->sharp && buffer[i + 1] != '0')
 	{
 		if (upper)
 			buffer[i--] = 'X';

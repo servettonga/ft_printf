@@ -6,13 +6,13 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 16:50:20 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/19 13:05:46 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/19 18:12:37 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static size_t	ft_printf_ptr_len(uintptr_t num)
+static size_t	__ptr_len(uintptr_t num)
 {
 	size_t	digits;
 
@@ -33,8 +33,8 @@ void	ft_printf_p(void *ptr, size_t *count, t_flags *flags)
 
 	addr = (uintptr_t)ptr;
 	if (!addr)
-		return (_print_null("(nil)", flags, count));
-	len = ft_printf_ptr_len(addr);
+		return (_print_null("(nil)", count));
+	len = __ptr_len(addr);
 	buffer = ft_calloc(len + 3, sizeof(char));
 	buffer[len + 2] = '\0';
 	while (addr > 0)

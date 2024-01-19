@@ -6,23 +6,19 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 20:19:36 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/18 21:02:58 by sehosaf          ###   ########.fr       */
+/*   Updated: 2024/01/19 17:30:11 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_printf_specifier(const char *format, va_list args, size_t *count,
+static void	__printf_specifier(const char *format, va_list args, size_t *count,
 		t_flags *flags)
 {
 	if (*format == 'c')
 		ft_printf_c(va_arg(args, int), count, flags);
 	else if (*format == 's')
-	{
-		flags->space = false;
-		flags->is_string = true;
 		ft_printf_s(va_arg(args, const char *), count, flags);
-	}
 	else if (*format == 'p')
 		ft_printf_p(va_arg(args, void *), count, flags);
 	else if (*format == 'd' || *format == 'i')
@@ -49,7 +45,7 @@ int	ft_printf_arg(const char *format, va_list args)
 			format++;
 			ft_set_flags(&flags, &format);
 			if (ft_is_specifier(*format))
-				ft_printf_specifier(format, args, &count, &flags);
+				__printf_specifier(format, args, &count, &flags);
 		}
 		else
 			ft_printf_c(*format, &count, &flags);

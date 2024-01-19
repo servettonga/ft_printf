@@ -1,16 +1,19 @@
 NAME = libftprintf.a
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -L./libft -lft -Iinclude
 AR = ar rcs
 RM = rm -f
 
-SRCS = $(wildcard *.c)
-OBJS = $(SRCS:.c=.o)
+SRC		=	ft_printf ft_printf_arg ft_printf_flags ft_printf_int ft_printf_ptr ft_printf_str
+
+SRCS	=	$(addprefix src/, $(addsuffix .c, $(SRC)))
+OBJS	=	$(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(AR) $(NAME) $(OBJS)
+	@ranlib $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -23,7 +26,4 @@ fclean: clean
 
 re: fclean all
 
-run:
-	gcc -Wall -Werror -Wextra ft_printf*.c -L. -lft -v
-
-bonus: all
+.PHONY: all clean fclean re
