@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 20:19:36 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/19 17:30:11 by sehosaf          ###   ########.fr       */
+/*   Updated: 2025/01/10 13:41:02 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	__printf_specifier(const char *format, va_list args, size_t *count,
 		ft_printf_c('%', count, flags);
 }
 
-int	ft_printf_arg(const char *format, va_list args)
+int	parse_format(const char *format, va_list args)
 {
 	t_flags	flags;
 	size_t	count;

@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:04:48 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/19 17:33:34 by sehosaf          ###   ########.fr       */
+/*   Updated: 2025/01/10 13:41:02 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ft_printf(const char *format, ...)
 	if (!format || *format == '\0')
 		return (0);
 	va_start(args, format);
-	count = ft_printf_arg(format, args);
+	count = parse_format(format, args);
 	va_end(args);
 	return (count);
 }

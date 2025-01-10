@@ -6,7 +6,7 @@
 /*   By: sehosaf <sehosaf@student.42warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:05:04 by sehosaf           #+#    #+#             */
-/*   Updated: 2024/01/19 17:35:30 by sehosaf          ###   ########.fr       */
+/*   Updated: 2025/01/10 13:41:02 by sehosaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		ft_printf_u(unsigned int n, size_t *count, t_flags *flags);
 void		ft_printf_x(unsigned int n, bool upper, size_t *count,
 				t_flags *flags);
 // 			Utils
-int			ft_printf_arg(const char *format, va_list args);
+int			parse_format(const char *format, va_list args);
 void		_print_null(const char *str, size_t *count);
 void		_pre_buffer(const char *str, size_t *count, t_flags *flags);
 

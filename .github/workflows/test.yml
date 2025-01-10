@@ -16,7 +16,6 @@ jobs:
       - name: make
         run: |
           sudo apt-get update && sudo apt-get install make git clang valgrind -y
-          make -C libft && mv libft/libft.a libft.a
           sed -i 's/-lftprintf/-lftprintf -lft/g' printfTester/Makefile
           sed -i 's/tput setaf [0-9]* &&//g' printfTester/Makefile
           sed -i 's/tput setaf [0-9]*//g' printfTester/Makefile
